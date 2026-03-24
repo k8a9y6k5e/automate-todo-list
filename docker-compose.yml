@@ -1,0 +1,15 @@
+# docker compose up -d : to start the container
+# docker compose down : to stop the container
+services:
+  mysql:
+    image: mysql:9
+    container_name: automate-todo-list
+    env_file:
+      - .env
+    ports:
+      - "${MYSQL_PORT}:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  mysql_data:
