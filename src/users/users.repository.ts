@@ -11,9 +11,9 @@ export class UserRepository {
     private readonly userRepository: Repository<User>,
   ) {}
 
-  async count(value: string) {
+  async count(key: keyof User, value: string) {
     const result = await this.userRepository.count({
-      where: { [value]: value },
+      where: { [key]: value },
     });
 
     return result;
