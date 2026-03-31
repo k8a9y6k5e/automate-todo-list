@@ -2,10 +2,14 @@ import { ConflictException, Injectable } from '@nestjs/common';
 import { UsersRepository } from './users.repository';
 import { IUserObject, IUserCreate, IReturnCreateUser } from './users.interface';
 import * as bcrypt from 'bcrypt';
+import { AuthService } from 'src/auth/auth.service';
 
 @Injectable()
 export class UsersService {
-  constructor(private readonly userRepository: UsersRepository) {}
+  constructor(
+    private readonly userRepository: UsersRepository,
+    private readonly authService: AuthService,
+  ) {}
 
   async create(informations: IUserObject): Promise<IReturnCreateUser> {
     if (await this.userRepository.count('email', informations.email))
@@ -23,9 +27,10 @@ export class UsersService {
 
     const id = await this.userRepository.insert(data);
 
-    //creation of token with a event emitter
-
-    const token: string = 'a'; //temp
+    const token: string = this.authService.login({
+      id: id,
+      email: informations.email,
+    });
 
     return { id: id, token: token };
   }
