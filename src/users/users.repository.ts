@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/users/entities/user.entity';
 import { Repository } from 'typeorm';
@@ -29,6 +29,8 @@ export class UsersRepository {
     const user = (await this.userRepository.findOne({
       where: { [key]: value },
     })) as ISearch;
+
+    if (!user) throw new NotFoundException('User not founded');
 
     return user;
   }

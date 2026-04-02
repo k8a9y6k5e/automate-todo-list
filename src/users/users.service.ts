@@ -1,6 +1,15 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { UsersRepository } from './users.repository';
-import { IUserObject, IUserCreate, IReturnCreateUser } from './users.interface';
+import {
+  IUserObject,
+  IUserCreate,
+  IReturnAuthUser,
+  IUserLogIn,
+} from './users.interface';
 import * as bcrypt from 'bcrypt';
 import { AuthService } from 'src/auth/auth.service';
 
@@ -11,7 +20,7 @@ export class UsersService {
     private readonly authService: AuthService,
   ) {}
 
-  async create(informations: IUserObject): Promise<IReturnCreateUser> {
+  async create(informations: IUserObject): Promise<IReturnAuthUser> {
     if (await this.userRepository.count('email', informations.email))
       throw new ConflictException('Email is already used');
 
@@ -33,5 +42,20 @@ export class UsersService {
     });
 
     return { id: id, token: token };
+  }
+
+  async logIn(informations: IUserLogIn): Promise<IReturnAuthUser> {
+    const user = await this.userRepository.search('email', informations.email);
+
+    const samePassword = await bcrypt.compare(
+      informations.password,
+      user.password_hash,
+    );
+
+    if (!samePassword) throw new UnauthorizedException('Invalid Password');
+
+    const token = this.authService.login({ id: user.id, email: user.email });
+
+    return { id: user.id, token: token };
   }
 }

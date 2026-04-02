@@ -10,7 +10,12 @@ export interface IUserCreate {
   password_hash: string;
 }
 
-export interface IReturnCreateUser {
+export interface IUserLogIn {
+  email: string;
+  password: string;
+}
+
+export interface IReturnAuthUser {
   id: number;
   token: string;
 }
