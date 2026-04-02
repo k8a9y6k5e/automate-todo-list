@@ -8,9 +8,16 @@ describe('UserRepository', () => {
     mockRepository = {
       count: jest.fn(),
       save: jest.fn(),
+      search: jest.fn(),
     };
 
     mockRepository.count.mockResolvedValue(1);
+    mockRepository.search.mockResolvedValue({
+      password_hash: '1234abcd',
+      email: 'test@example.com',
+      id: 1,
+      name: 'test',
+    });
     mockRepository.save.mockResolvedValue({
       id: 1,
       name: 'test',
@@ -36,5 +43,16 @@ describe('UserRepository', () => {
     const result = await repository.insert(userData);
 
     expect(result).toBe(1);
+  });
+
+  it('search a value in table', async () => {
+    const result = await repository.search('email', 'test@example.com');
+
+    expect(result).toBe({
+      password_hash: '1234abcd',
+      email: 'test@example.com',
+      id: 1,
+      name: 'test',
+    });
   });
 });
