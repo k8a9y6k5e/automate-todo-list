@@ -1,4 +1,6 @@
 import { UsersService } from './users.service';
+jest.mock('bcrypt');
+import * as bcrypt from 'bcrypt';
 
 describe('UserService', () => {
   let service: UsersService;
@@ -12,7 +14,6 @@ describe('UserService', () => {
       search: jest.fn(),
       hash: jest.fn(),
       genSalt: jest.fn(),
-      compare: jest.fn(),
     };
 
     authService = {
@@ -29,8 +30,9 @@ describe('UserService', () => {
     });
     mockRepository.hash.mockResolvedValue('a1b2c3d4');
     mockRepository.genSalt.mockResolvedValue(10);
-    mockRepository.compare.mockResolvedValue(true);
     authService.login.mockReturnValue('123abc');
+
+    (bcrypt.compare as jest.Mock).mockResolvedValue(true);
 
     service = new UsersService(mockRepository, authService);
   });
@@ -44,7 +46,7 @@ describe('UserService', () => {
 
     const result = await service.create(data);
 
-    expect(result).toBe({ id: 1, token: '123abc' });
+    expect(result).toEqual({ id: 1, token: '123abc' });
   });
 
   it('repeated email exception', async () => {
@@ -64,11 +66,11 @@ describe('UserService', () => {
 
     const result = await service.logIn(data);
 
-    expect(result).toBe({ id: 1, token: '123abc' });
+    expect(result).toEqual({ id: 1, token: '123abc' });
   });
 
   it('log in the already existed user, but different password', async () => {
-    mockRepository.compare.mockResolvedValue(false);
+    (bcrypt.compare as jest.Mock).mockResolvedValue(false);
 
     const data = { email: 'test@example.com', password: 'abc123' };
 

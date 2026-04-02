@@ -8,11 +8,11 @@ describe('UserRepository', () => {
     mockRepository = {
       count: jest.fn(),
       save: jest.fn(),
-      search: jest.fn(),
+      findOne: jest.fn(),
     };
 
     mockRepository.count.mockResolvedValue(1);
-    mockRepository.search.mockResolvedValue({
+    mockRepository.findOne.mockResolvedValue({
       password_hash: '1234abcd',
       email: 'test@example.com',
       id: 1,
@@ -48,7 +48,7 @@ describe('UserRepository', () => {
   it('search a value in table', async () => {
     const result = await repository.search('email', 'test@example.com');
 
-    expect(result).toBe({
+    expect(result).toEqual({
       password_hash: '1234abcd',
       email: 'test@example.com',
       id: 1,
