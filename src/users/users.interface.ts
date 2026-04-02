@@ -14,3 +14,10 @@ export interface IReturnCreateUser {
   id: number;
   token: string;
 }
+
+export interface ISearch {
+  password_hash: string;
+  email: string;
+  id: number;
+  name: string;
+}

@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/users/entities/user.entity';
 import { Repository } from 'typeorm';
-import { IUserCreate } from './users.interface';
+import { ISearch, IUserCreate } from './users.interface';
 
 @Injectable()
 export class UsersRepository {
@@ -23,5 +23,13 @@ export class UsersRepository {
     const user = await this.userRepository.save(informations);
 
     return user.id;
+  }
+
+  async search(key: keyof User, value: string | number): Promise<ISearch> {
+    const user = (await this.userRepository.findOne({
+      where: { [key]: value },
+    })) as ISearch;
+
+    return user;
   }
 }
