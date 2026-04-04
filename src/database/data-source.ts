@@ -5,7 +5,7 @@ import * as dotenv from 'dotenv';
 dotenv.config();
 
 //entities
-import { User } from '../users/entities/user.entity';
+import { User } from '../users/entities/users.entity';
 import { Task } from '../tasks/entities/tasks.entities';
 
 export const AppDataSource = new DataSource({

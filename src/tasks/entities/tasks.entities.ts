@@ -6,7 +6,7 @@ import {
   UpdateDateColumn,
   ManyToOne,
 } from 'typeorm';
-import { User } from '../../users/entities/user.entity';
+import { User } from '../../users/entities/users.entity';
 
 @Entity()
 export class Task {
