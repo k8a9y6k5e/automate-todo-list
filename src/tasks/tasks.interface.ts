@@ -5,4 +5,18 @@ export interface IReturnTaskCreate {
 export interface ITaskBody {
   name: string;
   description: string;
+  userId: number;
+}
+
+export interface IInformation {
+  importance: string;
+  category: string;
+}
+
+export interface ICreateTask {
+  name: string;
+  description: string;
+  category: string;
+  importance: string;
+  userIdId: number;
 }
