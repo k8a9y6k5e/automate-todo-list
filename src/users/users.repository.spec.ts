@@ -13,7 +13,7 @@ describe('UserRepository', () => {
 
     mockRepository.count.mockResolvedValue(1);
     mockRepository.findOne.mockResolvedValue({
-      password_hash: '1234abcd',
+      passwordHash: '1234abcd',
       email: 'test@example.com',
       id: 1,
       name: 'test',
@@ -37,7 +37,7 @@ describe('UserRepository', () => {
     const userData = {
       name: 'test',
       email: 'test@example.com',
-      password_hash: '1234abcd',
+      passwordHash: '1234abcd',
     };
 
     const result = await repository.insert(userData);
@@ -49,7 +49,7 @@ describe('UserRepository', () => {
     const result = await repository.search('email', 'test@example.com');
 
     expect(result).toEqual({
-      password_hash: '1234abcd',
+      passwordHash: '1234abcd',
       email: 'test@example.com',
       id: 1,
       name: 'test',

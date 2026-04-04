@@ -26,12 +26,12 @@ export class UsersService {
 
     const salt = await bcrypt.genSalt(10);
 
-    const password_hash = await bcrypt.hash(informations.password, salt);
+    const passwordHash = await bcrypt.hash(informations.password, salt);
 
     const data: IUserCreate = {
       name: informations.name.trim(),
       email: informations.email.trim(),
-      password_hash: password_hash,
+      passwordHash: passwordHash,
     };
 
     const id = await this.userRepository.insert(data);
@@ -49,7 +49,7 @@ export class UsersService {
 
     const samePassword = await bcrypt.compare(
       informations.password,
-      user.password_hash,
+      user.passwordHash,
     );
 
     if (!samePassword) throw new UnauthorizedException('Invalid Password');

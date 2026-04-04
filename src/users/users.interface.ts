@@ -7,7 +7,7 @@ export interface IUserObject {
 export interface IUserCreate {
   name: string;
   email: string;
-  password_hash: string;
+  passwordHash: string;
 }
 
 export interface IUserLogIn {
@@ -21,7 +21,7 @@ export interface IReturnAuthUser {
 }
 
 export interface ISearch {
-  password_hash: string;
+  passwordHash: string;
   email: string;
   id: number;
   name: string;

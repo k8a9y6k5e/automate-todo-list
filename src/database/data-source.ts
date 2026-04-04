@@ -6,6 +6,7 @@ dotenv.config();
 
 //entities
 import { User } from '../users/entities/user.entity';
+import { Task } from '../tasks/entities/tasks.entities';
 
 export const AppDataSource = new DataSource({
   type: 'mysql',
@@ -16,7 +17,7 @@ export const AppDataSource = new DataSource({
   database: env.DB_DATABASE,
   synchronize: false,
   logging: false,
-  entities: [User],
+  entities: [User, Task],
   migrations: [__dirname + '/migrations/*.ts'],
   subscribers: [],
 });

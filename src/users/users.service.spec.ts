@@ -23,7 +23,7 @@ describe('UserService', () => {
     mockRepository.count.mockResolvedValue(0);
     mockRepository.insert.mockResolvedValue(1);
     mockRepository.search.mockResolvedValue({
-      password_hash: '1234abcd',
+      passwordHash: '1234abcd',
       email: 'test@example.com',
       id: 1,
       name: 'test',
