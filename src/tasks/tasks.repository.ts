@@ -16,4 +16,10 @@ export class TasksRepository {
 
     return user.id;
   }
+
+  async countGroupBy(key: keyof Task, value: string | number): Promise<number> {
+    const result = await this.taskRepository.countBy({ [key]: value });
+
+    return result;
+  }
 }

@@ -1,4 +1,9 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  HttpException,
+  HttpStatus,
+} from '@nestjs/common';
 import {
   ICreateTask,
   IInformation,
@@ -17,6 +22,12 @@ export class TasksService {
   async create(body: ITaskBody): Promise<IReturnTaskCreate> {
     for (const value of Object.values(body))
       if (!value) throw new BadRequestException('Null value entred');
+
+    if ((await this.tasksRepository.countGroupBy('user', body.userId)) > 3)
+      throw new HttpException(
+        'User had exceted the tasks limit',
+        HttpStatus.TOO_MANY_REQUESTS,
+      );
 
     const informations: IInformation = await this.aiService.classificate(body);
 
