@@ -26,6 +26,12 @@ export class UsersController {
   async getUser(@CurrentUser() user: IPayload): Promise<IGetReturn> {
     return await this.service.get(user.id);
   }
+
+  @Delete('/me')
+  @UseGuards(JwtGuard)
+  async deleteUser(@CurrentUser() user: IPayload) {
+    // await
+  }
 }
 
 // both update - patch and put

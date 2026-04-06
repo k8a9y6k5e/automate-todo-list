@@ -57,4 +57,8 @@ export class UsersRepository {
 
     return (data[relation] as any[]).length;
   }
+
+  async delete(id: number) {
+    await this.userRepository.delete({ id: id });
+  }
 }
