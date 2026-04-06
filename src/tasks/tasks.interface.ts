@@ -17,5 +17,5 @@ export interface ICreateTask {
   description: string;
   category: string;
   importance: string;
-  userIdId: number;
+  user: number;
 }

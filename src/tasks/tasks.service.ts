@@ -15,7 +15,7 @@ export class TasksService {
     private readonly tasksRepository: TasksRepository,
   ) {}
   async create(body: ITaskBody, userId: number): Promise<IReturnTaskCreate> {
-    if ((await this.tasksRepository.countGroupBy('user', userId)) > 3)
+    if ((await this.tasksRepository.countGroupBy('user', userId)) >= 3)
       throw new HttpException(
         'User had exceted the tasks limit',
         HttpStatus.TOO_MANY_REQUESTS,
@@ -26,7 +26,7 @@ export class TasksService {
     const data: ICreateTask = {
       name: body.name,
       description: body.description,
-      userIdId: userId,
+      user: userId,
       importance: informations.importance,
       category: informations.category,
     };

@@ -18,3 +18,7 @@ export class TasksController {
     return await this.tasksService.create(body, user.id);
   }
 }
+
+//both updates - put and patch
+//get tasks and get user tasks
+//delete task

@@ -32,7 +32,7 @@ describe('TasksService', () => {
       description: 'A test task',
     };
 
-    const result = await service.create(data);
+    const result = await service.create(data, 1);
 
     expect(result).toEqual({ id: 1 });
   });

@@ -26,3 +26,9 @@ export interface ISearch {
   id: number;
   name: string;
 }
+
+export interface IGetReturn {
+  name: string;
+  email: string;
+  tasksCreated: number;
+}

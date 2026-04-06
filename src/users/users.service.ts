@@ -9,6 +9,7 @@ import {
   IUserCreate,
   IReturnAuthUser,
   IUserLogIn,
+  IGetReturn,
 } from './users.interface';
 import * as bcrypt from 'bcrypt';
 import { AuthService } from '../auth/auth.service';
@@ -57,5 +58,21 @@ export class UsersService {
     const token = this.authService.login({ id: user.id, email: user.email });
 
     return { id: user.id, token: token };
+  }
+
+  async get(id: number): Promise<IGetReturn> {
+    const data = await this.userRepository.search('id', id);
+
+    const tasksCreated = await this.userRepository.relationalCount(
+      'id',
+      id,
+      'tasks',
+    );
+
+    return {
+      name: data.name,
+      email: data.email,
+      tasksCreated: tasksCreated,
+    };
   }
 }

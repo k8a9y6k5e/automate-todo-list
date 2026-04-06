@@ -28,10 +28,33 @@ export class UsersRepository {
   async search(key: keyof User, value: string | number): Promise<ISearch> {
     const user = (await this.userRepository.findOne({
       where: { [key]: value },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        passwordHash: true,
+      },
     })) as ISearch;
 
     if (!user) throw new NotFoundException('User not founded');
 
     return user;
+  }
+
+  async relationalCount(
+    key: keyof User,
+    value: string | number,
+    relation: keyof User,
+  ): Promise<number> {
+    const data = await this.userRepository.findOne({
+      where: { [key]: value },
+      relations: {
+        [relation]: true,
+      },
+    });
+
+    if (!data) throw new NotFoundException('User not founded');
+
+    return (data[relation] as any[]).length;
   }
 }

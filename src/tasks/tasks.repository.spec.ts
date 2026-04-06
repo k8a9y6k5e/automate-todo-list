@@ -26,7 +26,7 @@ describe('TasksRepository', () => {
       description: 'a test task',
       category: 'test',
       importance: 'low',
-      userIdId: 1,
+      user: 1,
     };
 
     const result = await repository.insert(data);
