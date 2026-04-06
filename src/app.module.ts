@@ -6,6 +6,7 @@ import { ConfigModule } from '@nestjs/config';
 import { User } from './users/entities/users.entity';
 import { AIModule } from './AI/AI.module';
 import { Task } from './tasks/entities/tasks.entities';
+import { TasksModule } from './tasks/tasks.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { Task } from './tasks/entities/tasks.entities';
       migrationsRun: true,
     }),
     UsersModule,
+    TasksModule,
     AuthModule,
     AIModule,
   ],

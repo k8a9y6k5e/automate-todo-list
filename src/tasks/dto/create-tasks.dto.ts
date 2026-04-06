@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { IsNotEmpty, IsString } from 'class-validator';
 
 export class TasksCreateDto {
   @IsString()
@@ -8,8 +8,4 @@ export class TasksCreateDto {
   @IsString()
   @IsNotEmpty()
   description!: string;
-
-  @IsNumber()
-  @IsNotEmpty()
-  userId!: number;
 }

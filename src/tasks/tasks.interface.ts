@@ -5,7 +5,6 @@ export interface IReturnTaskCreate {
 export interface ITaskBody {
   name: string;
   description: string;
-  userId: number;
 }
 
 export interface IInformation {

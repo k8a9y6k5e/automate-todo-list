@@ -28,7 +28,7 @@ export class AiService {
       this.httpService.post(
         'https://api.groq.com/openai/v1/chat/completions',
         {
-          model: 'llama3-8b-8192',
+          model: 'moonshotai/kimi-k2-instruct-0905',
           messages: [
             {
               role: 'system',

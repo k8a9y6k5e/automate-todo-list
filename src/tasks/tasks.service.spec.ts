@@ -30,7 +30,6 @@ describe('TasksService', () => {
     const data = {
       name: 'test',
       description: 'A test task',
-      userId: 1,
     };
 
     const result = await service.create(data);
