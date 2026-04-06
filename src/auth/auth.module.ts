@@ -21,4 +21,4 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 export class AuthModule {}
 
 // to the controller validate the jwt use:
-// @UseGuards(JwtAuthGuard)
+// @UseGuards(JwtGuard)
