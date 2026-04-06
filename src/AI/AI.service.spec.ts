@@ -17,7 +17,7 @@ describe('AiService', () => {
           choices: [
             {
               message: {
-                content: '"category": "other","importance": "low"',
+                content: '{ "category": "other","importance": "low" }',
               },
             },
           ],

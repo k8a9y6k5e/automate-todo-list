@@ -5,6 +5,7 @@ import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { User } from './users/entities/users.entity';
 import { AIModule } from './AI/AI.module';
+import { Task } from './tasks/entities/tasks.entities';
 
 @Module({
   imports: [
@@ -16,7 +17,7 @@ import { AIModule } from './AI/AI.module';
       username: process.env.DB_USER,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_DATABASE,
-      entities: [User],
+      entities: [User, Task],
       synchronize: false,
       migrations: [__dirname + './database/migrations'],
       migrationsRun: true,

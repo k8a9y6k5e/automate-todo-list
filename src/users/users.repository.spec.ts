@@ -33,7 +33,7 @@ describe('UserRepository', () => {
     expect(result).toBe(1);
   });
 
-  it('create a row inside table', async () => {
+  it('save the user', async () => {
     const userData = {
       name: 'test',
       email: 'test@example.com',
