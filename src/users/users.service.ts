@@ -12,10 +12,10 @@ import {
   IUserLogIn,
   IGetReturn,
   IUpdateBody,
+  IUpdate,
 } from './users.interface';
 import * as bcrypt from 'bcrypt';
 import { AuthService } from '../auth/auth.service';
-import { User } from './entities/users.entity';
 
 @Injectable()
 export class UsersService {
@@ -104,7 +104,7 @@ export class UsersService {
         value = await bcrypt.hash(value, await bcrypt.genSalt(10));
       }
 
-      await this.userRepository.update(id, key as keyof User, value);
+      await this.userRepository.update(id, key as keyof IUpdate, value);
     }
   }
 }

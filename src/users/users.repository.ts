@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/users.entity';
 import { Repository } from 'typeorm';
-import { ISearch, IUserCreate } from './users.interface';
+import { ISearch, IUpdate, IUserCreate } from './users.interface';
 
 @Injectable()
 export class UsersRepository {
@@ -62,7 +62,7 @@ export class UsersRepository {
     await this.userRepository.delete({ id: id });
   }
 
-  async update(id: number, key: keyof User, value: string) {
+  async update(id: number, key: keyof IUpdate, value: string) {
     await this.userRepository.update({ id: id }, { [key]: value });
   }
 }

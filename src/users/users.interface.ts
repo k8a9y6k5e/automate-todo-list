@@ -38,3 +38,9 @@ export interface IUpdateBody {
   email?: string;
   password?: string;
 }
+
+export interface IUpdate {
+  name?: string;
+  email?: string;
+  passwordHash?: string;
+}

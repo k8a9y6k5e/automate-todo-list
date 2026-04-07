@@ -12,12 +12,15 @@ describe('UserService', () => {
       count: jest.fn(),
       insert: jest.fn(),
       search: jest.fn(),
-      hash: jest.fn(),
-      genSalt: jest.fn(),
+      relationalCount: jest.fn(),
+      delete: jest.fn(),
+      update: jest.fn(),
     };
 
     authService = {
       login: jest.fn(),
+      genSalt: jest.fn(),
+      hash: jest.fn(),
     };
 
     mockRepository.count.mockResolvedValue(0);
@@ -28,8 +31,10 @@ describe('UserService', () => {
       id: 1,
       name: 'test',
     });
-    mockRepository.hash.mockResolvedValue('a1b2c3d4');
-    mockRepository.genSalt.mockResolvedValue(10);
+    mockRepository.relationalCount.mockResolvedValue(1);
+
+    authService.hash.mockResolvedValue('a1b2c3d4');
+    authService.genSalt.mockResolvedValue(10);
     authService.login.mockReturnValue('123abc');
 
     (bcrypt.compare as jest.Mock).mockResolvedValue(true);
@@ -49,7 +54,7 @@ describe('UserService', () => {
     expect(result).toEqual({ id: 1, token: '123abc' });
   });
 
-  it('repeated email exception', async () => {
+  it('create user - exception test', async () => {
     mockRepository.count.mockResolvedValue(1);
 
     const data = {
@@ -69,11 +74,56 @@ describe('UserService', () => {
     expect(result).toEqual({ id: 1, token: '123abc' });
   });
 
-  it('log in the already existed user, but different password', async () => {
+  it('log in the already existed user - exception test', async () => {
     (bcrypt.compare as jest.Mock).mockResolvedValue(false);
 
     const data = { email: 'test@example.com', password: 'abc123' };
 
     await expect(async () => await service.logIn(data)).rejects.toThrow();
+  });
+
+  it('get user informations', async () => {
+    const result = await service.get(1);
+
+    expect(result).toEqual({
+      name: 'test',
+      email: 'test@example.com',
+      tasksCreated: 1,
+    });
+  });
+
+  it('delete user', async () => {
+    const result = await service.delete(1);
+
+    expect(result).toBeUndefined();
+  });
+
+  it('user patch update', async () => {
+    const data = {
+      password: '12345678',
+      name: 'tester',
+    };
+
+    const result = await service.patchUpdate(1, data);
+
+    expect(result).toBeUndefined();
+  });
+
+  it('user patch update - exception test', async () => {
+    await expect(
+      async () => await service.patchUpdate(1, {}),
+    ).rejects.toThrow();
+  });
+
+  it('user put update', async () => {
+    const data = {
+      name: 'test',
+      email: 'test@example.com',
+      password: '12345678',
+    };
+
+    const result = await service.putUpdate(1, data);
+
+    expect(result).toBeUndefined();
   });
 });
