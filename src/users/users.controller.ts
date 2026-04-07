@@ -15,8 +15,8 @@ import { UsersLogInDto } from './dto/login-user.dto';
 import { JwtGuard } from '../auth/jwt-auth.guard';
 import { CurrentUser } from './current-user.decorator';
 import type { IPayload } from '../auth/auth.interface';
-import { PutUpdateDto } from './dto/patch-update-user.dto';
-import { PatchUpdateDto } from './dto/put-update-user.dto';
+import { PatchUpdateDto } from './dto/patch-update-user.dto';
+import { PutUpdateDto } from './dto/put-update-user.dto';
 
 @Controller('users')
 export class UsersController {

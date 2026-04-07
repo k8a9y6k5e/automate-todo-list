@@ -1,6 +1,6 @@
 import { IsString, IsNotEmpty, IsEmail, MinLength } from 'class-validator';
 
-export class PatchUpdateDto {
+export class PutUpdateDto {
   @IsString()
   @IsNotEmpty()
   name!: string;

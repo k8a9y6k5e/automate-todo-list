@@ -1,6 +1,6 @@
 import { IsString, IsEmail, MinLength, IsOptional } from 'class-validator';
 
-export class PutUpdateDto {
+export class PatchUpdateDto {
   @IsOptional()
   @IsString()
   name!: string;
