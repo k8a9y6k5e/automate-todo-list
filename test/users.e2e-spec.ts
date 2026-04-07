@@ -52,11 +52,11 @@ describe('UserController - e2e', () => {
         password: '12345678',
       });
 
+    token = `Bearer ${response.body.token}`;
+
     expect(response.status).toBe(StatusCodes.OK);
     expect(response.body).toHaveProperty('id');
     expect(response.body).toHaveProperty('token');
-
-    token = response.body.token;
   });
 
   it('login user - exception test - incorrect password', async () => {
@@ -86,15 +86,10 @@ describe('UserController - e2e', () => {
       .get('/users/me')
       .set({ authorization: token });
 
-    expect(response.status).toBe(StatusCodes.NO_CONTENT);
-  });
-
-  it('delete user', async () => {
-    const response = await request(app.getHttpServer())
-      .delete('/users/me')
-      .set({ authorization: token });
-
-    expect(response.status).toBe(StatusCodes.NO_CONTENT);
+    expect(response.status).toBe(StatusCodes.OK);
+    expect(response.body).toHaveProperty('name');
+    expect(response.body).toHaveProperty('email');
+    expect(response.body).toHaveProperty('tasksCreated');
   });
 
   it('put update user', async () => {
@@ -125,10 +120,18 @@ describe('UserController - e2e', () => {
 
   it('patch update user - exception test', async () => {
     const response = await request(app.getHttpServer())
-      .put('/users/me')
+      .patch('/users/me')
       .send({})
       .set({ authorization: token });
 
     expect(response.status).toBe(StatusCodes.BAD_REQUEST);
+  });
+
+  it('delete user', async () => {
+    const response = await request(app.getHttpServer())
+      .delete('/users/me')
+      .set({ authorization: token });
+
+    expect(response.status).toBe(StatusCodes.NO_CONTENT);
   });
 });
