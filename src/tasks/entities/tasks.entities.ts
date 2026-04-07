@@ -25,7 +25,7 @@ export class Task {
   @Column()
   importance!: string;
 
-  @ManyToOne(() => User, (user) => user.tasks)
+  @ManyToOne(() => User, (user) => user.tasks, { onDelete: 'SET NULL' })
   user!: number;
 
   @CreateDateColumn()
