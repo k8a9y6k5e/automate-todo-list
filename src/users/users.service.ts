@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   ConflictException,
   Injectable,
   UnauthorizedException,
@@ -91,7 +92,7 @@ export class UsersService {
         await bcrypt.genSalt(10),
       );
       await this.userRepository.update(id, 'passwordHash', passwordHash);
-    }
+    } else throw new BadRequestException('None value to update');
   }
 
   async putUpdate(id: number, body: IUpdateBody) {

@@ -7,6 +7,7 @@ import {
   Delete,
   Put,
   Patch,
+  HttpCode,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import type { IReturnAuthUser, IGetReturn } from './users.interface';
@@ -17,6 +18,7 @@ import { CurrentUser } from './current-user.decorator';
 import type { IPayload } from '../auth/auth.interface';
 import { PatchUpdateDto } from './dto/patch-update-user.dto';
 import { PutUpdateDto } from './dto/put-update-user.dto';
+import { StatusCodes } from 'http-status-codes';
 
 @Controller('users')
 export class UsersController {
@@ -28,6 +30,7 @@ export class UsersController {
   }
 
   @Post('/login')
+  @HttpCode(StatusCodes.OK)
   async logIn(@Body() body: UsersLogInDto): Promise<IReturnAuthUser> {
     return await this.service.logIn(body);
   }
@@ -40,18 +43,21 @@ export class UsersController {
 
   @Delete('/me')
   @UseGuards(JwtGuard)
+  @HttpCode(StatusCodes.NO_CONTENT)
   async delete(@CurrentUser() user: IPayload) {
     await this.service.delete(user.id);
   }
 
   @Put('/me')
   @UseGuards(JwtGuard)
+  @HttpCode(StatusCodes.NO_CONTENT)
   async putUpdate(@CurrentUser() user: IPayload, @Body() body: PutUpdateDto) {
     await this.service.putUpdate(user.id, body);
   }
 
   @Patch('/me')
   @UseGuards(JwtGuard)
+  @HttpCode(StatusCodes.NO_CONTENT)
   async patchUpdate(
     @CurrentUser() user: IPayload,
     @Body() body: PatchUpdateDto,
