@@ -10,6 +10,7 @@ import {
   IReturnAuthUser,
   IUserLogIn,
   IGetReturn,
+  IUpdateBody,
 } from './users.interface';
 import * as bcrypt from 'bcrypt';
 import { AuthService } from '../auth/auth.service';
@@ -78,5 +79,10 @@ export class UsersService {
 
   async delete(id: number) {
     await this.userRepository.delete(id);
+  }
+
+  async update(id: number, body: IUpdateBody) {
+    if (body.email) await this.userRepository.update(id, 'email', body.email);
+    if (body.name) await this.userRepository.update(id, 'name', body.name);
   }
 }
