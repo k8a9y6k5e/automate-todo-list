@@ -14,6 +14,7 @@ import {
 } from './users.interface';
 import * as bcrypt from 'bcrypt';
 import { AuthService } from '../auth/auth.service';
+import { User } from './entities/users.entity';
 
 @Injectable()
 export class UsersService {
@@ -81,8 +82,28 @@ export class UsersService {
     await this.userRepository.delete(id);
   }
 
-  async update(id: number, body: IUpdateBody) {
+  async patchUpdate(id: number, body: IUpdateBody) {
     if (body.email) await this.userRepository.update(id, 'email', body.email);
     if (body.name) await this.userRepository.update(id, 'name', body.name);
+    if (body.password) {
+      const passwordHash = await bcrypt.hash(
+        body.password,
+        await bcrypt.genSalt(10),
+      );
+      await this.userRepository.update(id, 'passwordHash', passwordHash);
+    }
+  }
+
+  async putUpdate(id: number, body: IUpdateBody) {
+    for (let key of Object.keys(body)) {
+      let value = body[key];
+
+      if (key == 'password') {
+        key = 'passwordHash';
+        value = await bcrypt.hash(value, await bcrypt.genSalt(10));
+      }
+
+      await this.userRepository.update(id, key as keyof User, value);
+    }
   }
 }

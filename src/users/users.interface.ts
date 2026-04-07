@@ -36,4 +36,5 @@ export interface IGetReturn {
 export interface IUpdateBody {
   name?: string;
   email?: string;
+  password?: string;
 }
