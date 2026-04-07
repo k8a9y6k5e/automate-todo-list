@@ -75,4 +75,8 @@ export class UsersService {
       tasksCreated: tasksCreated,
     };
   }
+
+  async delete(id: number) {
+    await this.userRepository.delete(id);
+  }
 }
