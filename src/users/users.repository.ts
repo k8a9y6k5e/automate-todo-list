@@ -61,4 +61,8 @@ export class UsersRepository {
   async delete(id: number) {
     await this.userRepository.delete({ id: id });
   }
+
+  async update(id: number, key: keyof User, value: string) {
+    await this.userRepository.update({ id: id }, { [key]: value });
+  }
 }

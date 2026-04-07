@@ -32,3 +32,8 @@ export interface IGetReturn {
   email: string;
   tasksCreated: number;
 }
+
+export interface IUpdateBody {
+  name?: string;
+  email?: string;
+}
