@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Get, UseGuards } from '@nestjs/common';
+import { Controller, Post, Body, Get, UseGuards, Delete } from '@nestjs/common';
 import { UsersService } from './users.service';
 import type { IReturnAuthUser, IGetReturn } from './users.interface';
 import { UsersCreateDto } from './dto/create-user.dto';
@@ -29,10 +29,9 @@ export class UsersController {
 
   @Delete('/me')
   @UseGuards(JwtGuard)
-  async deleteUser(@CurrentUser() user: IPayload) {
-    // await
+  async delete(@CurrentUser() user: IPayload) {
+    await this.service.delete(user.id);
   }
 }
 
 // both update - patch and put
-// delete
