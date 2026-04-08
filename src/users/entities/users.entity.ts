@@ -7,6 +7,7 @@ import {
   OneToMany,
 } from 'typeorm';
 import { Task } from '../../tasks/entities/tasks.entities';
+import { Exclude } from 'class-transformer';
 
 @Entity()
 export class User {
@@ -20,12 +21,15 @@ export class User {
   email!: string;
 
   @Column()
+  @Exclude()
   passwordHash!: string;
 
   @CreateDateColumn({ name: 'created_at' })
+  @Exclude()
   createdAt!: Date;
 
   @UpdateDateColumn({ name: 'updated_at' })
+  @Exclude()
   updatedAt!: Date;
 
   @OneToMany(() => Task, (task) => task.user)

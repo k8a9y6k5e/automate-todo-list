@@ -1,4 +1,13 @@
-import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  ClassSerializerInterceptor,
+  Controller,
+  Get,
+  Param,
+  Post,
+  UseGuards,
+  UseInterceptors,
+} from '@nestjs/common';
 import { IReturnTaskCreate, ISearch } from './tasks.interface';
 import { TasksService } from './tasks.service';
 import { TasksCreateDto } from './dto/create-tasks.dto';
@@ -20,6 +29,7 @@ export class TasksController {
 
   @Get('/:id')
   @UseGuards(JwtGuard)
+  @UseInterceptors(ClassSerializerInterceptor)
   async search(@Param() param: { id: number }): Promise<ISearch> {
     return await this.tasksService.searchTask(param.id);
   }

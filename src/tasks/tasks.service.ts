@@ -3,6 +3,7 @@ import {
   ICreateTask,
   IInformation,
   IReturnTaskCreate,
+  ISearch,
   ITaskBody,
 } from './tasks.interface';
 import { AiService } from '../AI/AI.service';
@@ -36,7 +37,7 @@ export class TasksService {
     return { id: id };
   }
 
-  async searchTask(id: number) {
+  async searchTask(id: number): Promise<ISearch> {
     const result = this.tasksRepository.search(id);
 
     return result;

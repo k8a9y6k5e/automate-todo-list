@@ -34,6 +34,7 @@ export class TasksRepository {
         importance: true,
         user: true,
       },
+      relations: ['user'],
     })) as ISearch;
 
     if (!result) throw new NotFoundException('Task(s) not founded');

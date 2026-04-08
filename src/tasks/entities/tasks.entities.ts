@@ -7,6 +7,7 @@ import {
   ManyToOne,
 } from 'typeorm';
 import { User } from '../../users/entities/users.entity';
+import { Exclude } from 'class-transformer';
 
 @Entity()
 export class Task {
@@ -29,8 +30,10 @@ export class Task {
   user!: number;
 
   @CreateDateColumn()
+  @Exclude()
   createdAt!: Date;
 
   @UpdateDateColumn()
+  @Exclude()
   updatedAt!: Date;
 }
