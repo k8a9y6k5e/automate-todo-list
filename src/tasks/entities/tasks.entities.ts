@@ -26,6 +26,9 @@ export class Task {
   @Column()
   importance!: string;
 
+  @Column({ default: false })
+  complete!: boolean;
+
   @ManyToOne(() => User, (user) => user.tasks, { onDelete: 'SET NULL' })
   user!: number;
 

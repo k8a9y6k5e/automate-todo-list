@@ -26,14 +26,6 @@ export class TasksRepository {
   async search(id: number): Promise<ISearch> {
     const result = (await this.taskRepository.findOne({
       where: { id: id },
-      select: {
-        id: true,
-        name: true,
-        description: true,
-        category: true,
-        importance: true,
-        user: true,
-      },
       relations: ['user'],
     })) as ISearch;
 
