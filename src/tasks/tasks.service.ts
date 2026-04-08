@@ -3,6 +3,7 @@ import {
   HttpException,
   HttpStatus,
   BadRequestException,
+  NotFoundException,
 } from '@nestjs/common';
 import {
   ICreateTask,
@@ -15,12 +16,14 @@ import {
 } from './tasks.interface';
 import { AiService } from '../AI/AI.service';
 import { TasksRepository } from './tasks.repository';
+import { UsersRepository } from '../users/users.repository';
 
 @Injectable()
 export class TasksService {
   constructor(
     private readonly aiService: AiService,
     private readonly tasksRepository: TasksRepository,
+    private readonly usersRepository: UsersRepository,
   ) {}
   async create(body: ITaskBody, userId: number): Promise<IReturnTaskCreate> {
     if ((await this.tasksRepository.countGroupBy('user', userId)) >= 3)
@@ -70,6 +73,15 @@ export class TasksService {
   }
 
   async putUpdateTask(id: number, body: IUpdateBody) {
+    if ((await this.usersRepository.count('id', body.user!)) === 0)
+      throw new NotFoundException('User not founded to update');
+
+    if ((await this.tasksRepository.countGroupBy('user', body.user!)) >= 3)
+      throw new HttpException(
+        'User had exceted the tasks limit',
+        HttpStatus.TOO_MANY_REQUESTS,
+      );
+
     const classificateData = await this.aiService.classificate({
       name: body.name!,
       description: body.description!,
@@ -102,14 +114,30 @@ export class TasksService {
     });
 
     if (classificateData.category)
-      await this.tasksRepository.update(id, 'category', body.category);
+      await this.tasksRepository.update(
+        id,
+        'category',
+        classificateData.category,
+      );
     if (body.complete)
       await this.tasksRepository.update(id, 'complete', body.complete);
     if (body.description)
       await this.tasksRepository.update(id, 'description', body.description);
     if (classificateData.importance)
-      await this.tasksRepository.update(id, 'importance', body.importance);
+      await this.tasksRepository.update(
+        id,
+        'importance',
+        classificateData.category,
+      );
     if (body.name) await this.tasksRepository.update(id, 'name', body.name);
-    if (body.user) await this.tasksRepository.update(id, 'user', body.user);
+    if (body.user) {
+      if ((await this.tasksRepository.countGroupBy('user', body.user)) >= 3)
+        throw new HttpException(
+          'User had exceted the tasks limit',
+          HttpStatus.TOO_MANY_REQUESTS,
+        );
+
+      await this.tasksRepository.update(id, 'user', body.user);
+    }
   }
 }
