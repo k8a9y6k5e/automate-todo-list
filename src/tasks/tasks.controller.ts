@@ -20,8 +20,8 @@ export class TasksController {
 
   @Get('/:id')
   @UseGuards(JwtGuard)
-  async search(@Param() id: number): Promise<ISearch> {
-    return await this.tasksService.searchTask(id);
+  async search(@Param() param: { id: number }): Promise<ISearch> {
+    return await this.tasksService.searchTask(param.id);
   }
 }
 
