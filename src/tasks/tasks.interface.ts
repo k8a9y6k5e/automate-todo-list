@@ -42,5 +42,5 @@ export interface IUpdateBody {
   category?: string;
   importance?: string;
   user?: number;
-  completed?: boolean;
+  complete?: boolean;
 }
