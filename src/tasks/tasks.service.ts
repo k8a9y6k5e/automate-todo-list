@@ -70,11 +70,24 @@ export class TasksService {
   }
 
   async putUpdateTask(id: number, body: IUpdateBody) {
+    const classificateData = await this.aiService.classificate({
+      name: body.name!,
+      description: body.description!,
+    });
+
     for (const key of Object.keys(body)) {
       await this.tasksRepository.update(
         id,
         key as keyof IUpdateBody,
         body[key],
+      );
+    }
+
+    for (const key of Object.keys(classificateData)) {
+      await this.tasksRepository.update(
+        id,
+        key as keyof IUpdateBody,
+        classificateData[key],
       );
     }
   }
@@ -83,13 +96,18 @@ export class TasksService {
     if (Object.keys(body).length === 0)
       throw new BadRequestException('None value to update');
 
-    if (body.category)
+    const classificateData = await this.aiService.classificate({
+      name: body.name!,
+      description: body.description!,
+    });
+
+    if (classificateData.category)
       await this.tasksRepository.update(id, 'category', body.category);
-    if (body.completed)
-      await this.tasksRepository.update(id, 'completed', body.completed);
+    if (body.complete)
+      await this.tasksRepository.update(id, 'complete', body.complete);
     if (body.description)
       await this.tasksRepository.update(id, 'description', body.description);
-    if (body.importance)
+    if (classificateData.importance)
       await this.tasksRepository.update(id, 'importance', body.importance);
     if (body.name) await this.tasksRepository.update(id, 'name', body.name);
     if (body.user) await this.tasksRepository.update(id, 'user', body.user);
