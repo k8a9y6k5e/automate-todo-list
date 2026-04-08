@@ -19,3 +19,12 @@ export interface ICreateTask {
   importance: string;
   user: number;
 }
+
+export interface ISearch {
+  id: number;
+  name: string;
+  description: string;
+  category: string;
+  importance: string;
+  user: number;
+}

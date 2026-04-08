@@ -35,4 +35,10 @@ export class TasksService {
 
     return { id: id };
   }
+
+  async searchTask(id: number) {
+    const result = this.tasksRepository.search(id);
+
+    return result;
+  }
 }

@@ -1,8 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Task } from './entities/tasks.entities';
 import { Repository } from 'typeorm';
-import { ICreateTask } from './tasks.interface';
+import type { ICreateTask, ISearch } from './tasks.interface';
 
 @Injectable()
 export class TasksRepository {
@@ -19,6 +19,24 @@ export class TasksRepository {
 
   async countGroupBy(key: keyof Task, value: string | number): Promise<number> {
     const result = await this.taskRepository.countBy({ [key]: value });
+
+    return result;
+  }
+
+  async search(id: number): Promise<ISearch> {
+    const result = (await this.taskRepository.findOne({
+      where: { id: id },
+      select: {
+        id: true,
+        name: true,
+        description: true,
+        category: true,
+        importance: true,
+        user: true,
+      },
+    })) as ISearch;
+
+    if (!result) throw new NotFoundException('Task(s) not founded');
 
     return result;
   }

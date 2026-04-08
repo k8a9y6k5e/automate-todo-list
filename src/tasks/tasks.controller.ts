@@ -1,5 +1,5 @@
-import { Body, Controller, Post, UseGuards } from '@nestjs/common';
-import { IReturnTaskCreate } from './tasks.interface';
+import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
+import { IReturnTaskCreate, ISearch } from './tasks.interface';
 import { TasksService } from './tasks.service';
 import { TasksCreateDto } from './dto/create-tasks.dto';
 import { JwtGuard } from '../auth/jwt-auth.guard';
@@ -17,8 +17,14 @@ export class TasksController {
   ): Promise<IReturnTaskCreate> {
     return await this.tasksService.create(body, user.id);
   }
+
+  @Get('/:id')
+  @UseGuards(JwtGuard)
+  async search(@Param() id: number): Promise<ISearch> {
+    return await this.tasksService.searchTask(id);
+  }
 }
 
 //both updates - put and patch
-//get tasks and get user tasks
+//list tasks
 //delete task
