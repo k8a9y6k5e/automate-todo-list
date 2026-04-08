@@ -4,6 +4,7 @@ import {
   Controller,
   Get,
   Param,
+  ParseIntPipe,
   Post,
   Query,
   UseGuards,
@@ -39,8 +40,8 @@ export class TasksController {
   @UseGuards(JwtGuard)
   @UseInterceptors(ClassSerializerInterceptor)
   async list(
-    @Query('page') page: number,
-    @Query('take') take: number,
+    @Query('page', ParseIntPipe) page: number,
+    @Query('take', ParseIntPipe) take: number,
     @Query('sort') sort: keyof ISearch,
   ): Promise<IReturnSearch> {
     return await this.tasksService.listTasks(take, page, sort);
@@ -48,5 +49,4 @@ export class TasksController {
 }
 
 //both updates - put and patch
-//list tasks
 //delete task

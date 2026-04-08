@@ -53,6 +53,7 @@ export class TasksRepository {
       take: take,
       skip: skip,
       order: { [sort]: 'ASC' },
+      relations: ['user'],
     });
 
     return result;
