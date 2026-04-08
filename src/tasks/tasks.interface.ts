@@ -35,3 +35,12 @@ export interface IReturnSearch {
   total: number;
   data: ISearch[];
 }
+
+export interface IUpdateBody {
+  name?: string;
+  description?: string;
+  category?: string;
+  importance?: string;
+  user?: number;
+  completed?: boolean;
+}

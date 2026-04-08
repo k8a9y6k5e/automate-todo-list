@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Task } from './entities/tasks.entities';
 import { Repository } from 'typeorm';
-import type { ICreateTask, ISearch } from './tasks.interface';
+import type { ICreateTask, ISearch, IUpdateBody } from './tasks.interface';
 
 @Injectable()
 export class TasksRepository {
@@ -53,5 +53,13 @@ export class TasksRepository {
 
   async delete(id: number) {
     await this.taskRepository.delete({ id: id });
+  }
+
+  async update(
+    id: number,
+    key: keyof IUpdateBody,
+    value: string | number | boolean,
+  ) {
+    await this.taskRepository.update({ id: id }, { [key]: value });
   }
 }
