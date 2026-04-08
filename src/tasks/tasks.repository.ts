@@ -41,4 +41,20 @@ export class TasksRepository {
 
     return result;
   }
+
+  async list(
+    take: number,
+    page: number,
+    sort: keyof Task = 'importance',
+  ): Promise<[ISearch[], number]> {
+    const skip = (page - 1) * take;
+
+    const result = await this.taskRepository.findAndCount({
+      take: take,
+      skip: skip,
+      order: { [sort]: 'ASC' },
+    });
+
+    return result;
+  }
 }
