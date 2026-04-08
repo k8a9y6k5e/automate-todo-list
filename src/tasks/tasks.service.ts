@@ -105,39 +105,43 @@ export class TasksService {
   }
 
   async patchUpdateTask(id: number, body: IUpdateBody) {
-    if (Object.keys(body).length === 0)
-      throw new BadRequestException('None value to update');
+    if (!body) throw new BadRequestException('None value to update');
 
-    const classificateData = await this.aiService.classificate({
-      name: body.name!,
-      description: body.description!,
-    });
+    let updateConfirm: number = 0;
 
-    if (classificateData.category)
+    if (body.complete !== null || body.complete !== undefined)
+      await this.tasksRepository.update(id, 'complete', body.complete!);
+    if (body.description) {
+      await this.tasksRepository.update(id, 'description', body.description);
+      updateConfirm++;
+    }
+    if (body.name) {
+      await this.tasksRepository.update(id, 'name', body.name);
+      updateConfirm++;
+    }
+    if (body.user) {
+      if ((await this.usersRepository.count('id', body.user)) === 0)
+        throw new NotFoundException('User not founded to update');
+
+      await this.tasksRepository.update(id, 'user', body.user);
+    }
+
+    if (updateConfirm === 2) {
+      const classificateData = await this.aiService.classificate({
+        name: body.name!,
+        description: body.description!,
+      });
+
       await this.tasksRepository.update(
         id,
         'category',
         classificateData.category,
       );
-    if (body.complete)
-      await this.tasksRepository.update(id, 'complete', body.complete);
-    if (body.description)
-      await this.tasksRepository.update(id, 'description', body.description);
-    if (classificateData.importance)
       await this.tasksRepository.update(
         id,
         'importance',
-        classificateData.category,
+        classificateData.importance,
       );
-    if (body.name) await this.tasksRepository.update(id, 'name', body.name);
-    if (body.user) {
-      if ((await this.tasksRepository.countGroupBy('user', body.user)) >= 3)
-        throw new HttpException(
-          'User had exceted the tasks limit',
-          HttpStatus.TOO_MANY_REQUESTS,
-        );
-
-      await this.tasksRepository.update(id, 'user', body.user);
     }
   }
 }

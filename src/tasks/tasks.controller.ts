@@ -61,7 +61,7 @@ export class TasksController {
     await this.tasksService.deleteTask(params.id);
   }
 
-  @Put()
+  @Put('/:id')
   @UseGuards(JwtGuard)
   @HttpCode(StatusCodes.NO_CONTENT)
   async putUpdate(
@@ -71,7 +71,7 @@ export class TasksController {
     await this.tasksService.putUpdateTask(params.id, body);
   }
 
-  @Patch()
+  @Patch('/:id')
   @UseGuards(JwtGuard)
   @HttpCode(StatusCodes.NO_CONTENT)
   async patchUpdate(

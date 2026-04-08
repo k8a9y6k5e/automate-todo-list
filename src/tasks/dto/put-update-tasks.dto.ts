@@ -11,7 +11,7 @@ export class TasksPutUpdateDto {
 
   @IsNumber()
   @IsNotEmpty()
-  users!: number;
+  user!: number;
 
   @IsBoolean()
   @IsNotEmpty()

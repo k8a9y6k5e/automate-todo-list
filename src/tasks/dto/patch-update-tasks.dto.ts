@@ -11,7 +11,7 @@ export class TasksPatchUpdateDto {
 
   @IsNumber()
   @IsOptional()
-  users!: number;
+  user!: number;
 
   @IsBoolean()
   @IsOptional()

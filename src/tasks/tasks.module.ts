@@ -6,7 +6,7 @@ import { Module } from '@nestjs/common';
 import { Task } from './entities/tasks.entities';
 import { AIModule } from '../AI/AI.module';
 import { TasksRepository } from './tasks.repository';
-import { UsersRepository } from '../users/users.repository';
+import { UsersModule } from '../users/users.module';
 
 @Module({
   controllers: [TasksController],
@@ -15,7 +15,7 @@ import { UsersRepository } from '../users/users.repository';
     AuthModule,
     TypeOrmModule.forFeature([Task]),
     AIModule,
-    UsersRepository,
+    UsersModule,
   ],
 })
 export class TasksModule {}
