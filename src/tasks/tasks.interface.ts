@@ -28,3 +28,10 @@ export interface ISearch {
   importance: string;
   user: number;
 }
+
+export interface IReturnSearch {
+  page: number;
+  take: number;
+  total: number;
+  data: ISearch[];
+}

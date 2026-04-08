@@ -2,6 +2,7 @@ import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import {
   ICreateTask,
   IInformation,
+  IReturnSearch,
   IReturnTaskCreate,
   ISearch,
   ITaskBody,
@@ -41,5 +42,20 @@ export class TasksService {
     const result = this.tasksRepository.search(id);
 
     return result;
+  }
+
+  async listTasks(
+    take: number,
+    page: number,
+    sort?: keyof ISearch,
+  ): Promise<IReturnSearch> {
+    const result = await this.tasksRepository.list(take, page, sort);
+
+    return {
+      page: page,
+      take: take,
+      total: result[1],
+      data: result[0],
+    };
   }
 }
