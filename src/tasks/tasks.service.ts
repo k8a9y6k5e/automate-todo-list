@@ -105,7 +105,8 @@ export class TasksService {
   }
 
   async patchUpdateTask(id: number, body: IUpdateBody) {
-    if (!body) throw new BadRequestException('None value to update');
+    if (!body || Object.keys(body).length === 0)
+      throw new BadRequestException('None value to update');
 
     let updateConfirm: number = 0;
 
