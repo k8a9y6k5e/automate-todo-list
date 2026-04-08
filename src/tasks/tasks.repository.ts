@@ -58,4 +58,8 @@ export class TasksRepository {
 
     return result;
   }
+
+  async delete(id: number) {
+    await this.taskRepository.delete({ id: id });
+  }
 }
