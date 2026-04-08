@@ -5,10 +5,11 @@ import {
   Get,
   Param,
   Post,
+  Query,
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
-import { IReturnTaskCreate, ISearch } from './tasks.interface';
+import { IReturnSearch, IReturnTaskCreate, ISearch } from './tasks.interface';
 import { TasksService } from './tasks.service';
 import { TasksCreateDto } from './dto/create-tasks.dto';
 import { JwtGuard } from '../auth/jwt-auth.guard';
@@ -32,6 +33,17 @@ export class TasksController {
   @UseInterceptors(ClassSerializerInterceptor)
   async search(@Param() param: { id: number }): Promise<ISearch> {
     return await this.tasksService.searchTask(param.id);
+  }
+
+  @Get()
+  @UseGuards(JwtGuard)
+  @UseInterceptors(ClassSerializerInterceptor)
+  async list(
+    @Query('page') page: number,
+    @Query('take') take: number,
+    @Query('sort') sort: keyof ISearch,
+  ): Promise<IReturnSearch> {
+    return await this.tasksService.listTasks(take, page, sort);
   }
 }
 
