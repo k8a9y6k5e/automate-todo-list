@@ -1,4 +1,9 @@
-import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
+import {
+  Injectable,
+  HttpException,
+  HttpStatus,
+  BadRequestException,
+} from '@nestjs/common';
 import {
   ICreateTask,
   IInformation,
@@ -6,6 +11,7 @@ import {
   IReturnTaskCreate,
   ISearch,
   ITaskBody,
+  IUpdateBody,
 } from './tasks.interface';
 import { AiService } from '../AI/AI.service';
 import { TasksRepository } from './tasks.repository';
@@ -61,5 +67,31 @@ export class TasksService {
 
   async deleteTask(id: number) {
     await this.tasksRepository.delete(id);
+  }
+
+  async putUpdateTask(id: number, body: IUpdateBody) {
+    for (const key of Object.keys(body)) {
+      await this.tasksRepository.update(
+        id,
+        key as keyof IUpdateBody,
+        body[key],
+      );
+    }
+  }
+
+  async patchUpdateTask(id: number, body: IUpdateBody) {
+    if (Object.keys(body).length === 0)
+      throw new BadRequestException('None value to update');
+
+    if (body.category)
+      await this.tasksRepository.update(id, 'category', body.category);
+    if (body.completed)
+      await this.tasksRepository.update(id, 'completed', body.completed);
+    if (body.description)
+      await this.tasksRepository.update(id, 'description', body.description);
+    if (body.importance)
+      await this.tasksRepository.update(id, 'importance', body.importance);
+    if (body.name) await this.tasksRepository.update(id, 'name', body.name);
+    if (body.user) await this.tasksRepository.update(id, 'user', body.user);
   }
 }

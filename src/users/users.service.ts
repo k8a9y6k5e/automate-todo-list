@@ -84,11 +84,7 @@ export class UsersService {
   }
 
   async patchUpdate(id: number, body: IUpdateBody) {
-    if (
-      !Object.keys(body).includes('email') &&
-      !Object.keys(body).includes('name') &&
-      !Object.keys(body).includes('password')
-    )
+    if (Object.keys(body).length === 0)
       throw new BadRequestException('None value to update');
     if (body.email) await this.userRepository.update(id, 'email', body.email);
     if (body.name) await this.userRepository.update(id, 'name', body.name);

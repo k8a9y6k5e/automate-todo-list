@@ -11,6 +11,8 @@ import {
   UseInterceptors,
   Delete,
   HttpCode,
+  Put,
+  Patch,
 } from '@nestjs/common';
 import { IReturnSearch, IReturnTaskCreate, ISearch } from './tasks.interface';
 import { TasksService } from './tasks.service';
@@ -56,6 +58,18 @@ export class TasksController {
   async delete(@Param() params: { id: number }) {
     await this.tasksService.deleteTask(params.id);
   }
-}
 
-//both updates - put and patch
+  @Put()
+  @UseGuards(JwtGuard)
+  @HttpCode(StatusCodes.NO_CONTENT)
+  async putUpdate(@Param() params: { id: number }, @Body() body: any) {
+    await this.tasksService.putUpdateTask(params.id, body);
+  }
+
+  @Patch()
+  @UseGuards(JwtGuard)
+  @HttpCode(StatusCodes.NO_CONTENT)
+  async patchUpdate(@Param() params: { id: number }, @Body() body: any) {
+    await this.tasksService.patchUpdateTask(params.id, body);
+  }
+}
