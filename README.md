@@ -64,9 +64,9 @@ $ npm run test:cov
 
 | Method | Route | Description | Body example | Auth |
 | --- | --- | --- | --- | --- |
-| POST | /tasks | Create the task and pass to the AI to classificate | { name: string, description: string } | Yes |
-| GET | /tasks/:id | Search the task by id | Without body | Yes |
-| GET | /tasks | List all tasks(use pagination) | Without body | Yes |
-| DELETE | /tasks/:id | Delete a task by id | Without body | Yes |
-| PATCH | /tasks/:id | Update part of a task | { name: string(optional), description: string(optional), user: number(optional), complete: boolean(optional) } | Yes |
-| PUT | /tasks/:id | Update completely a task | { name: string, description: string, user: number, complete: boolean } | Yes |
+| POST |  | Create the task and pass to the AI to classificate | { name: string, description: string } | Yes |
+| GET | /:id | Search the task by id | Without body | Yes |
+| GET |  | List all tasks(use pagination) | Without body | Yes |
+| DELETE | /:id | Delete a task by id | Without body | Yes |
+| PATCH | /:id | Update part of a task | { name: string(optional), description: string(optional), user: number(optional), complete: boolean(optional) } | Yes |
+| PUT | /:id | Update completely a task | { name: string, description: string, user: number, complete: boolean } | Yes |
