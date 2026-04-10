@@ -5,7 +5,7 @@ import { App } from 'supertest/types';
 import { AppModule } from '../src/app.module';
 import { StatusCodes } from 'http-status-codes';
 
-describe('UserController - e2e', () => {
+describe('UsersController - e2e', () => {
   let app: INestApplication<App>;
   let token: string;
 
@@ -133,5 +133,9 @@ describe('UserController - e2e', () => {
       .set({ authorization: token });
 
     expect(response.status).toBe(StatusCodes.NO_CONTENT);
+  });
+
+  afterAll(async () => {
+    await app.close();
   });
 });

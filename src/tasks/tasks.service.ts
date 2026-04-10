@@ -124,6 +124,12 @@ export class TasksService {
       if ((await this.usersRepository.count('id', body.user)) === 0)
         throw new NotFoundException('User not founded to update');
 
+      if ((await this.tasksRepository.countGroupBy('user', body.user)) >= 3)
+        throw new HttpException(
+          'User had exceted the tasks limit',
+          HttpStatus.TOO_MANY_REQUESTS,
+        );
+
       await this.tasksRepository.update(id, 'user', body.user);
     }
 
